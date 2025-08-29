@@ -1,0 +1,23 @@
+.bgLogin {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #38bdf8 0%, #6366f1 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardLogin {
+  background: rgba(255,255,255,0.97);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+  padding: 32px 24px;
+  min-width: 350px;
+  max-width: 400px;
+  width: 100%;
+  animation: fadeInUp 0.7s;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px);}
+  to { opacity: 1; transform: translateY(0);}
+}

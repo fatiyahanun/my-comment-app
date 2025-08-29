@@ -1,0 +1,54 @@
+.bgMain {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e0e7ff 0%, #f0fdfa 100%);
+  padding: 40px 0;
+}
+
+.cardCustom {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.12);
+  padding: 32px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  border: 1px solid #e0e7ff;
+}
+
+.headerCustom {
+  background: linear-gradient(90deg, #6366f1 0%, #06b6d4 100%);
+  border-radius: 12px 12px 0 0;
+  padding: 24px 24px 16px 24px;
+  color: #fff;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.titleCustom {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.buttonCreate {
+  background: #fff !important;
+  color: #06b6d4 !important;
+  border: none !important;
+  font-weight: 600;
+}
+
+.buttonCreate:hover {
+  background: #e0f2fe !important;
+  color: #0e7490 !important;
+}
+
+.p-datatable .p-datatable-thead > tr > th {
+  background: #f1f5f9;
+  color: #334155;
+  font-weight: 600;
+}
+
+.p-datatable .p-datatable-tbody > tr:hover {
+  background: #f0fdfa;
+}

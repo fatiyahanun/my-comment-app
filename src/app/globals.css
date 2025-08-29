@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import PrimeReact styles */
+@import 'primereact/resources/themes/bootstrap4-light-blue/theme.css';
+@import 'primereact/resources/primereact.min.css';
+@import 'primeicons/primeicons.css';
+
+/* Import Bootstrap (jika tidak pakai Tailwind) */
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+body {
+  font-family: 'Arial', sans-serif;
+}

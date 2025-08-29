@@ -1,15 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
-import { InputText } from 'primereact/inputtext';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { Toast } from 'primereact/toast';
-import { useRef } from 'react';
-import styles from './CommentTable.module.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function CommentTable() {
   const [comments, setComments] = useState<Comment[]>([]);
@@ -20,18 +16,26 @@ export default function CommentTable() {
   const router = useRouter();
 
   useEffect(() => {
-    // Check if user is logged in
     const isLoggedIn = localStorage.getItem('isLoggedIn');
     if (!isLoggedIn) {
       router.push('/login');
       return;
     }
-
     fetchComments();
+
+    // Ambil comment baru dari localStorage (jika ada)
+    const newCommentStr = localStorage.getItem('newComment');
+    if (newCommentStr) {
+      try {
+        const newComment = JSON.parse(newCommentStr);
+        setComments(prev => [newComment, ...prev]);
+        setFilteredComments(prev => [newComment, ...prev]);
+      } catch {}
+      localStorage.removeItem('newComment');
+    }
   }, [router]);
 
   useEffect(() => {
-    // Filter comments based on search
     if (!globalFilter) {
       setFilteredComments(comments);
     } else {
@@ -51,7 +55,6 @@ export default function CommentTable() {
       setComments(data);
       setFilteredComments(data);
     } catch (error) {
-      console.error('Error fetching comments:', error);
       toast.current?.show({
         severity: 'error',
         summary: 'Error',
@@ -92,76 +95,75 @@ export default function CommentTable() {
     router.push('/login');
   };
 
-  const actionBodyTemplate = (rowData: Comment) => (
-    <Button
-      icon="pi pi-trash"
-      className="p-button-rounded p-button-danger p-button-text"
-      onClick={() => handleDelete(rowData.id)}
-      tooltip="Delete comment"
-    />
-  );
-
-  const header = (
-    <div className={styles.headerCustom}>
-      <div className="d-flex justify-content-between align-items-center flex-wrap gap-3">
-        <span className={styles.titleCustom}>💬 Comments Dashboard</span>
-        <div className="d-flex gap-2">
+  return (
+    <div className="container py-5">
+      <Toast ref={toast} />
+      <ConfirmDialog />
+      <div className="card shadow-lg">
+        <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+          <h3 className="mb-0">💬 Comments Dashboard</h3>
           <Button
             label="Logout"
             icon="pi pi-sign-out"
-            className="p-button-outlined p-button-danger"
+            className="btn btn-danger"
             onClick={handleLogout}
           />
         </div>
-      </div>
-      <div className="d-flex gap-3 align-items-center mt-2 flex-wrap">
-        <span className="p-input-icon-left">
-          <i className="pi pi-search" />
-          <InputText
-            value={globalFilter}
-            onChange={(e) => setGlobalFilter(e.target.value)}
-            placeholder="Search comments..."
-          />
-        </span>
-        <Button
-          label="Create Comment"
-          icon="pi pi-plus"
-          onClick={() => router.push('/create-comment')}
-          className={styles.buttonCreate}
-        />
-      </div>
-    </div>
-  );
-
-  return (
-    <div className={styles.bgMain}>
-      <Toast ref={toast} />
-      <ConfirmDialog />
-      <div className={styles.cardCustom}>
-        {header}
-        <DataTable
-          value={filteredComments}
-          loading={loading}
-          responsiveLayout="scroll"
-          emptyMessage="No comments found"
-          paginator
-          rows={10}
-          rowsPerPageOptions={[5, 10, 25, 50]}
-        >
-          <Column field="id" header="ID" sortable />
-          <Column field="name" header="Name" sortable />
-          <Column field="email" header="Email" sortable />
-          <Column
-            field="body"
-            header="Comment"
-            body={(rowData) => (
-              <div title={rowData.body} style={{ maxWidth: 300, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                {rowData.body}
-              </div>
-            )}
-          />
-          <Column body={actionBodyTemplate} header="Actions" />
-        </DataTable>
+        <div className="card-body">
+          <div className="d-flex mb-3 gap-2">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search comments..."
+              value={globalFilter}
+              onChange={e => setGlobalFilter(e.target.value)}
+            />
+            <Button
+              label="Create Comment"
+              icon="pi pi-plus"
+              className="btn btn-success"
+              onClick={() => router.push('/create-comment')}
+            />
+          </div>
+          <div className="table-responsive">
+            <table className="table table-striped table-hover align-middle">
+              <thead className="table-light">
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Comment</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredComments.length === 0 && (
+                  <tr>
+                    <td colSpan={5} className="text-center">No comments found</td>
+                  </tr>
+                )}
+                {filteredComments.map(comment => (
+                  <tr key={comment.id}>
+                    <td>{comment.id}</td>
+                    <td>{comment.name}</td>
+                    <td>{comment.email}</td>
+                    <td style={{ maxWidth: 300, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      {comment.body}
+                    </td>
+                    <td>
+                      <Button
+                        icon="pi pi-trash"
+                        className="btn btn-sm btn-danger"
+                        onClick={() => handleDelete(comment.id)}
+                        tooltip="Delete comment"
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   );

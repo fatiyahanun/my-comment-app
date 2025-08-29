@@ -2,12 +2,10 @@
 
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { InputText } from 'primereact/inputtext';
-import { InputTextarea } from 'primereact/inputtextarea';
 import { Button } from 'primereact/button';
 import { Message } from 'primereact/message';
 import { Toast } from 'primereact/toast';
-import styles from './CreateCommentForm.module.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export interface CreateCommentPayload {
   name: string;
@@ -90,27 +88,27 @@ export default function CreateCommentForm() {
   };
 
   return (
-    <div className={styles.bgCreateComment}>
+    <div className="container d-flex align-items-center justify-content-center min-vh-100 bg-light">
       <Toast ref={toast} />
-      <div className={styles.cardCreateComment}>
-        <div className={styles.headerCreateComment}>
+      <div className="card shadow p-4" style={{ minWidth: 350, maxWidth: 500, width: '100%' }}>
+        <div className="d-flex justify-content-between align-items-center mb-4">
           <h2 className="mb-0" style={{ fontWeight: 700, letterSpacing: 1 }}>Create New Comment</h2>
           <Button
             icon="pi pi-arrow-left"
             label="Back"
-            className="p-button-outlined p-button-secondary"
+            className="btn btn-outline-secondary btn-sm"
             onClick={() => router.push('/dashboard')}
-            size="small"
           />
         </div>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="name" className="form-label fw-semibold">Name *</label>
-            <InputText
+            <input
               id="name"
+              type="text"
               value={formData.name}
-              onChange={(e) => handleInputChange('name', e.target.value)}
-              className={`form-control ${errors.name ? 'p-invalid' : ''}`}
+              onChange={e => handleInputChange('name', e.target.value)}
+              className={`form-control ${errors.name ? 'is-invalid' : ''}`}
               placeholder="Enter your name"
             />
             {errors.name && (
@@ -121,12 +119,12 @@ export default function CreateCommentForm() {
           </div>
           <div className="mb-3">
             <label htmlFor="email" className="form-label fw-semibold">Email *</label>
-            <InputText
+            <input
               id="email"
               type="email"
               value={formData.email}
-              onChange={(e) => handleInputChange('email', e.target.value)}
-              className={`form-control ${errors.email ? 'p-invalid' : ''}`}
+              onChange={e => handleInputChange('email', e.target.value)}
+              className={`form-control ${errors.email ? 'is-invalid' : ''}`}
               placeholder="Enter your email"
             />
             {errors.email && (
@@ -137,14 +135,13 @@ export default function CreateCommentForm() {
           </div>
           <div className="mb-4">
             <label htmlFor="body" className="form-label fw-semibold">Comment *</label>
-            <InputTextarea
+            <textarea
               id="body"
               value={formData.body}
-              onChange={(e) => handleInputChange('body', e.target.value)}
-              className={`form-control ${errors.body ? 'p-invalid' : ''}`}
+              onChange={e => handleInputChange('body', e.target.value)}
+              className={`form-control ${errors.body ? 'is-invalid' : ''}`}
               placeholder="Enter your comment"
               rows={5}
-              autoResize
             />
             {errors.body && (
               <div className="mt-2">
@@ -158,14 +155,14 @@ export default function CreateCommentForm() {
               label="Create Comment"
               icon="pi pi-check"
               loading={isSubmitting}
-              className="flex-fill"
-              style={{ background: 'linear-gradient(90deg, #38bdf8 0%, #6366f1 100%)', border: 'none', fontWeight: 600 }}
+              className="btn btn-primary flex-fill"
+              style={{ fontWeight: 600 }}
             />
             <Button
               type="button"
               label="Cancel"
               icon="pi pi-times"
-              className="p-button-secondary flex-fill"
+              className="btn btn-secondary flex-fill"
               onClick={() => router.push('/dashboard')}
               disabled={isSubmitting}
             />

@@ -8,15 +8,19 @@ Aplikasi ini memiliki fitur Login, Dashboard dengan Tabel Comment, Search, Delet
 
 🔑 Login Page
 
+
 Form Username & Password wajib diisi.
-![alt text](image.png)
+
 
 Validasi input kosong → tampil pesan "Field is required".
-![alt text](image-1.png)
+
+<img width="1919" height="1004" alt="image" src="https://github.com/user-attachments/assets/12b3b4ff-ad36-4a0b-82ad-01a1bcaa1663" />
+
+
 📊 Dashboard Comment
 
 Menampilkan data comments dari API.
-![alt text](image-2.png)
+
 
 Fitur Search untuk memfilter data.
 
@@ -25,11 +29,11 @@ Fitur Delete untuk menghapus comment.
 📝 Create Comment
 
 Form input: Name, Email, Body.
-![alt text](image-3.png)
+
 
 Validasi: semua field wajib diisi, dan Email harus format valid.
+<img width="1919" height="998" alt="image" src="https://github.com/user-attachments/assets/7f57d50e-0025-4889-b566-149d60021f12" />
 
-![alt text](image-4.png)
 
 Setelah submit, otomatis kembali ke Dashboard.
 

@@ -2,11 +2,10 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { InputText } from 'primereact/inputtext';
-import { Password } from 'primereact/password';
 import { Button } from 'primereact/button';
 import { Message } from 'primereact/message';
 import styles from './LoginForm.module.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const LoginForm: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -31,19 +30,20 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <div className={styles.bgLogin}>
-      <div className={styles.cardLogin}>
+    <div className="container d-flex align-items-center justify-content-center min-vh-100 bg-light">
+      <div className="card shadow p-4" style={{ minWidth: 350, maxWidth: 400, width: '100%' }}>
         <h2 className="text-center mb-4" style={{ color: '#6366f1', fontWeight: 700, letterSpacing: 1 }}>Login to Dashboard</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="username" className="form-label fw-semibold">
               Username
             </label>
-            <InputText
+            <input
               id="username"
+              type="text"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className={`form-control ${errors.username ? 'p-invalid' : ''}`}
+              onChange={e => setUsername(e.target.value)}
+              className={`form-control ${errors.username ? 'is-invalid' : ''}`}
               placeholder="Enter your username"
             />
             {errors.username && (
@@ -56,15 +56,13 @@ const LoginForm: React.FC = () => {
             <label htmlFor="password" className="form-label fw-semibold">
               Password
             </label>
-            <Password
+            <input
               id="password"
+              type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className={`form-control ${errors.password ? 'p-invalid' : ''}`}
+              onChange={e => setPassword(e.target.value)}
+              className={`form-control ${errors.password ? 'is-invalid' : ''}`}
               placeholder="Enter your password"
-              feedback={false}
-              toggleMask
-              inputClassName="w-100"
             />
             {errors.password && (
               <div className="mt-2">
@@ -75,9 +73,9 @@ const LoginForm: React.FC = () => {
           <Button
             type="submit"
             label="Login"
-            className="w-100"
+            className="btn btn-primary w-100"
             size="large"
-            style={{ background: 'linear-gradient(90deg, #38bdf8 0%, #6366f1 100%)', border: 'none', fontWeight: 600 }}
+            style={{ fontWeight: 600 }}
           />
         </form>
       </div>
